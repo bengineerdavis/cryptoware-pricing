@@ -28,6 +28,76 @@ def extract(data_dir):
 # return SQL table metadata
 extract(data_dir=target_dir)
 
+#TODO: Use this dict to add in the datatypes into the sqlstamp function
+meta_data = {
+	"dim_cpu_prod": {
+		"Id": "SERIAL",
+		"Manufacturer": "VARCHAR(128)",
+		"Series": "VARCHAR(128)",
+		"CPU_Name": "VARCHAR(128)",
+		"Cores": "INTEGER",
+		"Socket": "VARCHAR(128)",
+	},
+	"dim_crypto_data": {
+		"Id": "SERIAL",
+		"Code": "VARCHAR(128)",
+		"Currency_Name": "VARCHAR(128)",
+		"Is_Mineable": "BOOLEAN NOT NULL",
+	},
+	"dim_gpu_prod": {
+		"Id": "SERIAL",
+		"Processor_Manufacturer": "VARCHAR(128)",
+		"Processor": "VARCHAR(128)",
+		"GPU_Manufacturer": "VARCHAR(128)",
+		"Memory_Capacity": "NUMERIC(7,5)",
+		"Memory_Type": "VARCHAR(128)",
+	},
+	"dim_merchant": {
+		"Id": "SERIAL",
+		"Merchant": "VARCHAR(128)",
+	},
+	"dim_ram_prod": {
+		"Id": "SERIAL",
+		"Manufacturer": "VARCHAR(128)",
+		"RAM_Name": "VARCHAR(128)",
+		"Memory_Type": "VARCHAR(128)",
+		"Speed": "INTEGER",
+		"Capacity": "NUMERIC(8,5)",
+	},
+	"dim_region": {
+		"Id": "SERIAL",
+		"Code": "VARCHAR(128)",
+		"Currency": "VARCHAR(128)",
+	}
+	"dim_time": {
+		"Id": "SERIAL",
+		"Year": "INTEGER",
+		"Month": "INTEGER",
+		"Day": "INTEGER",
+		"Week": "INTEGER",
+	}
+	"fact_cpu_price": {
+		"Price_USD": "NUMERIC(18,10)",
+		"Price_Original": "NUMERIC(18,10)",
+	} 
+	"fact_crypto_rate" {
+		"Open": "NUMERIC(28,6)",
+		"Close": "NUMERIC(28,6)",
+		"High": "NUMERIC(28,6)",
+		"Low": "NUMERIC(28,6)",
+	}
+	"fact_gpu_price" {
+		"Price_USD": "NUMERIC(18,10)",
+		"Price_Original": "NUMERIC(18,10)",
+	} 
+	"fact_ram_price" {
+		"Price_USD": "NUMERIC(18,10)",
+		"Price_Original": "NUMERIC(18,10)",
+	}
+
+
+
+
 def sqlstamp(file):
 	with open(file, 'w') as f:
 		for table, columns in schema.items(): 
@@ -39,6 +109,7 @@ def sqlstamp(file):
 				c_string = ""
 				# set standard indentation for create table statements
 				indent = "    "
+				col_end = " ,"
 				# add boilerplate for foreign keys
 				foreign_key_clause = " INTEGER REFERENCES " + column[:-2] + "(Id) ON DELETE CASCADE"
 				# how to handle foriegn key formats and the end of CREATE TABLE statements
@@ -52,10 +123,10 @@ def sqlstamp(file):
 					f.write("); " + "\n\n")
 
 				elif index != len(columns) - 1 and ("Id" in column and "Id" < column):
-					c_string = indent + column + foreign_key_clause
+					c_string = indent + column + foreign_key_clause + col_end
 					f.write(c_string + "\n")
 				else:
-					c_string = indent + column + ","
+					c_string = indent + column + col_end
 					f.write(c_string + "\n")
 
 
