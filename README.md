@@ -45,16 +45,17 @@ source venv/bin/activate
 deactivate
 ```
 
-4. Go to this link and click the Download button.
+4. Go to this link and click the Download button. Make sure to instruct the browser to save the file, instead of open it.
 
 ```http
 https://www.kaggle.com/raczeq/ethereum-effect-pc-parts/metadata
 ```
 
-5. From the root of downloaded repository, unzip the archive into our ```data``` directory.
+5. From the root of downloaded repository, unzip the archive from your local ```Downloads``` directory into our ```data``` directory.
 
 ```bash
-unzip Downloads/archive.zip -d data/
+# This will unzip all of the files that are part of the Kaggle dataset
+unzip <Downloads-directory-path>/archive.zip -d data/
 ```
 
 6. Finally, install your dependencies in the virtual environment you just made.
