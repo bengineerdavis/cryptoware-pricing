@@ -57,11 +57,7 @@ https://www.kaggle.com/raczeq/ethereum-effect-pc-parts/metadata
 unzip Downloads/archive.zip -d data/
 ```
 
-6. Run the ```make_tables.py``` script.
-
-
-
-7. Finally, install your dependencies in the virtual environment you just made.
+6. Finally, install your dependencies in the virtual environment you just made.
 
 ```bash
 # update pip
@@ -79,11 +75,11 @@ pip-compile && pip-sync
 Once you have your installation done, there's several more steps to do to get started. Keep in mind, I am using a Linux machine--make sure you have a ```bash``` terminal installed on your machine. Mac should run this code with relatively few issues.
 
 ```bash
-# do this from a bash console to enable our script and then run it.
-chmod +x scripts/make_tables.py
+#Make all the scripts in the ```scripts``` directory executable.
+chmod +x scripts/*
 
-# then, run the script to generate our boilerplate SQL script, named "schema.sql"
-python scripts/make_tables.py
+# then, run the sqlstamp.sql to generate our boilerplate SQL script, named "schema.sql"
+python scripts/sqlstamp.py
 ```
 
 After generating ```schema.sql```, we'll make some edits to it to match the schema outlined in the kaggle site of the original dataset creator.
