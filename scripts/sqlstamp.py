@@ -103,30 +103,35 @@ def sqlstamp(file):
 			prefix = "CREATE TABLE " + table + " ("
 			f.write(prefix + "\n")
 			for index,column in enumerate(columns):
-				c_string = ""
 				# set standard indentation for create table statements
 				indent = "    "
 				col_end = ","
 				space = " "
+				id_string = "Id"
+				c_string = indent + column.lower() + space
 				# add boilerplate for foreign keys
-				foreign_key_clause = " INTEGER REFERENCES " + column[:-2] + "(Id) ON DELETE CASCADE"
-				if column in meta_data[table] and meta_data[table][column] is not None:
+				foreign_key_clause = indent + column[:-2].lower() + "_id" + " INTEGER REFERENCES " + column[:-2] + "(id)" + " ON DELETE CASCADE"
+				
+				if column in meta_data[table]:
 					data_type = meta_data[table][column]
+
 				# how to handle foriegn key formats and the end of CREATE TABLE statements
-				if index == len(columns) - 1 and ("Id" in column and "Id" < column):
-					c_string = indent + column + foreign_key_clause
+				if index == len(columns) - 1 and (id_string in column and id_string < column):
+					c_string = foreign_key_clause
 					f.write(c_string + "\n")
 					f.write("); " + "\n\n")
-				elif index == len(columns) - 1 and not ("Id" in column and "Id" < column):
-					c_string = indent + column + space + data_type
+				
+				elif index == len(columns) - 1 and not (id_string in column and id_string < column):
+					c_string += data_type
 					f.write(c_string + "\n")
 					f.write("); " + "\n\n")
 
-				elif index != len(columns) - 1 and ("Id" in column and "Id" < column):
-					c_string = indent + column + foreign_key_clause + col_end
+				elif index != len(columns) - 1 and (id_string in column and id_string < column):
+					c_string = foreign_key_clause + col_end
 					f.write(c_string + "\n")
+				
 				else:
-					c_string = indent + column + space + data_type + col_end
+					c_string += data_type + col_end
 					f.write(c_string + "\n")
 
 
