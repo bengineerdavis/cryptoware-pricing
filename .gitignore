@@ -5,6 +5,8 @@ data/*
 schema.sql
 requirements.txt
 scripts/admin.sh
+raw_data_backup/*
+
 
 
 
